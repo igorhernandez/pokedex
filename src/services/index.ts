@@ -6,14 +6,15 @@ interface IPokemons {
   url: string
 }
 
-export const getPokemonId = (url: string) => {
+const getPokemonId = (url: string) => {
   const urlToReplace = 'https://pokeapi.co/api/v2/pokemon/'
   return parseInt(url.replaceAll(urlToReplace, ''))
 }
 
-export const getPokemons = async () => {
+export const getPokemons = async (page: number) => {
   try {
-    const pokemonList = await getPokemonsList()
+    const pokemonList = await getPokemonsList(page)
+    if (!pokemonList) return null
     const pokemons = await Promise.all(
       pokemonList.map(async ({ id, name, url }: IPokemons) => {
         const {
@@ -31,12 +32,14 @@ export const getPokemons = async () => {
     )
 
     return pokemons
-  } catch (error) {}
+  } catch (error) {
+    console.log('Get Pokemons Error', error)
+  }
 }
 
 export const getSpecies = async (url: string) => {
+  if (!url) return null
   try {
-    if (!url) return null
     const {
       species: { url: speciesUrl }
     } = await getPokemon(url)
@@ -47,17 +50,20 @@ export const getSpecies = async (url: string) => {
 }
 
 export const getPokemon = async (url: string) => {
+  if (!url) return null
   try {
-    if (!url) return null
     return await api.get(url).then((response) => response.data)
   } catch (error) {
     console.log('Get Pokemon Error', error)
   }
 }
 
-export const getPokemonsList = async () => {
+export const getPokemonsList = async (page: number) => {
   try {
-    const url = '/pokemon'
+    const offset = (page - 1) * 10
+    console.log('offset', offset)
+    const url = `/pokemon?offset=${offset}&limit=10`
+
     return await api.get(url).then(async (response) => {
       const {
         data: { results }
@@ -76,6 +82,6 @@ export const getPokemonsList = async () => {
       return pokemons
     })
   } catch (error) {
-    console.log('error', error)
+    console.log('Get Pokemon List Error', error)
   }
 }
