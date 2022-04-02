@@ -1,51 +1,15 @@
-import { StatusBar } from 'expo-status-bar'
-import { useEffect, useState } from 'react'
-import { Text, SafeAreaView, FlatList } from 'react-native'
-import { getPokemons } from './src/services'
-
-interface ISpecies {
-  color: { name: string; url: string }
-  egg_groups: Array<{ name: string; url: string }>
-}
-
-interface IPokemon {
-  id: number
-  name: string
-  species: ISpecies
-  url: string
-}
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import Home from './src/screens/Home/Home'
 
 export default function App() {
-  const [pokemons, setPokemons] = useState<Array<IPokemon>>([
-    {
-      id: 0,
-      name: '',
-      species: {
-        color: { name: '', url: '' },
-        egg_groups: [{ name: '', url: '' }]
-      },
-      url: ''
-    }
-  ])
-
-  const handleGetPokemons = async () => {
-    const pokemonsResponse = await getPokemons()
-    if (!pokemonsResponse) return null
-    setPokemons(pokemonsResponse)
-  }
-
-  useEffect(() => {
-    handleGetPokemons()
-  }, [])
+  const Stack = createNativeStackNavigator()
 
   return (
-    <SafeAreaView>
-      <FlatList
-        data={pokemons}
-        renderItem={({ item }) => <Text>{item.name}</Text>}
-        keyExtractor={(item) => item.name}
-      />
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Pokedéx" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
