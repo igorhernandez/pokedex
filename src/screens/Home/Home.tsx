@@ -5,18 +5,7 @@ import { getPokemons } from '../../services'
 
 import PokemonList from './components/PokemonList/PokemonList'
 import { Container } from './Home.styles'
-
-interface ISpecies {
-  color: string
-  egg_groups: Array<{ name: string; url: string }>
-}
-
-interface IPokemon {
-  id: number
-  name: string
-  species: ISpecies
-  url: string
-}
+import { IPokemon } from '../../interfaces/pokemon.interfaces'
 
 function Home() {
   const [pokemons, setPokemons] = useState<Array<IPokemon>>([])
@@ -28,7 +17,10 @@ function Home() {
     getPokemons(page)
       .then((response) => {
         console.log('response', response)
-        setPokemons((prevPokemons) => [...prevPokemons, ...response])
+        setPokemons((prevPokemons) => [
+          ...prevPokemons,
+          ...(response as IPokemon[])
+        ])
       })
       .finally(() => {
         setLoading(false)
