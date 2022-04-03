@@ -8,7 +8,7 @@ interface IPokemons {
 
 const getPokemonId = (url: string) => {
   const urlToReplace = 'https://pokeapi.co/api/v2/pokemon/'
-  return parseInt(url.replaceAll(urlToReplace, ''))
+  return parseInt(url.replace(urlToReplace, ''))
 }
 
 export const getPokemons = async (page: number) => {
@@ -46,6 +46,16 @@ export const getSpecies = async (url: string) => {
     return await api.get(speciesUrl).then((response) => response.data)
   } catch (error) {
     console.log('Get Species Error', error)
+  }
+}
+
+export const getPokemonById = async (id: number) => {
+  if (!id) return null
+  try {
+    const url = `https://pokeapi.co/api/v2/pokemon/${id}/`
+    return await api.get(url).then((response) => response.data)
+  } catch (error) {
+    console.log('Get Pokemon Error', error)
   }
 }
 
