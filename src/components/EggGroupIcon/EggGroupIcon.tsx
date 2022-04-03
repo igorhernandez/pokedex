@@ -1,6 +1,4 @@
-import { AntDesign } from '@expo/vector-icons'
-import { FontAwesome5 } from '@expo/vector-icons'
-import { MaterialIcons } from '@expo/vector-icons'
+import { AntDesign, MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
 
 import { colors } from '../../utils/colors'
 import { IconContainer } from './EggGroupIcon.styles'
@@ -16,7 +14,7 @@ interface IEggGroupsColors {
   [color: string]: string
 }
 
-const EggGroupsIcons = ({ eggName }: IEggGroupsIcons) => {
+const EggGroupIcon = ({ eggName }: IEggGroupsIcons) => {
   if (!eggName) return null
 
   const eggGroupsColors: IEggGroupsColors = {
@@ -71,4 +69,4 @@ const EggGroupsIcons = ({ eggName }: IEggGroupsIcons) => {
   )
 }
 
-export default EggGroupsIcons
+export default EggGroupIcon
