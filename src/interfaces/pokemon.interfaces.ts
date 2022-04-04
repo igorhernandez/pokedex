@@ -13,4 +13,5 @@ export interface IPokemon {
   name: string
   species: ISpecies
   url: string
+  description: string
 }
