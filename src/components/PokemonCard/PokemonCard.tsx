@@ -1,6 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
+import { RootStackParamList } from '../../../App'
 import { IPokemon } from '../../interfaces/pokemon.interfaces'
 import { Screens } from '../../navigation/screenNames'
 import { capitalizeFirstLetter, handlePokemonImage } from '../../utils/helpers'
@@ -18,7 +20,7 @@ interface IPokemonCard {
 }
 
 const PokemonCard = ({ pokemon }: IPokemonCard) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
 
   return (
     <TouchableOpacity
