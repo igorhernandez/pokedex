@@ -6,8 +6,8 @@ import PokemonCard from '../../../../components/PokemonCard/PokemonCard'
 
 interface IPokemonList {
   pokemons: Array<IPokemon>
-  onEndReached: any
-  isLoading: any
+  onEndReached: () => void
+  isLoading: boolean
 }
 
 function PokemonList({ pokemons, isLoading, onEndReached }: IPokemonList) {
@@ -35,15 +35,14 @@ function PokemonList({ pokemons, isLoading, onEndReached }: IPokemonList) {
       onEndReachedThreshold={0.01}
       onEndReached={onEndReached}
       windowSize={7}
-      initialNumToRender={7}
       removeClippedSubviews
       showsVerticalScrollIndicator={false}
       keyExtractor={(item) => item.name}
-      ListHeaderComponent={() => (
+      ListHeaderComponent={
         <PokemonLogoContainer>
           <PokemonLogo width={130} height={70} />
         </PokemonLogoContainer>
-      )}
+      }
       ListFooterComponent={shouldRenderLoader}
     />
   )
