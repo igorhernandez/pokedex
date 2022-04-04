@@ -16,7 +16,9 @@ function Home() {
     setLoading(true)
     getPokemons(page)
       .then((response) => {
-        console.log('response', response)
+        if (!response) {
+          return null
+        }
         setPokemons((prevPokemons) => [
           ...prevPokemons,
           ...(response as IPokemon[])
@@ -27,9 +29,15 @@ function Home() {
       })
   }
 
+  const onEndReached = () => setPage((prevPage) => prevPage + 1)
+
   useEffect(() => {
     handleGetPokemons(page)
   }, [page])
+
+  useEffect(() => {
+    console.log('pokemons', pokemons)
+  }, [pokemons])
 
   return (
     <SafeAreaView>
@@ -37,7 +45,7 @@ function Home() {
       <Container>
         <PokemonList
           pokemons={pokemons}
-          onEndReached={() => setPage((prevPage) => prevPage + 1)}
+          onEndReached={onEndReached}
           isLoading={loading}
         />
       </Container>
