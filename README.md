@@ -31,7 +31,7 @@
 ### Justificativas técnicas
 
 - Expo
-  Foi utilizado expo ao invés de react-native cli, pois o expo tem diversas facilidades na utilizaçao dos plugins, além de trazer consigo uma
+  - Foi utilizado expo ao invés de react-native cli, pois o expo tem diversas facilidades na utilizaçao dos plugins, além de trazer consigo uma
   dev experience excelente, utilizei managed workflow por se tratar de um app com escopo fechado que não se fez necessário a utilização dos módulos
   nativos e mesmo que futuramente fosse necessário poderia utilizar o `expo eject`, já que desde o SDK 38 com o bareworkflow tornou essa possibilidade
   mais viavel
