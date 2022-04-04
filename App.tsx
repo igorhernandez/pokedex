@@ -18,15 +18,15 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName={Screens.HOME}>
         <Stack.Screen
           name={Screens.HOME}
-          options={{ title: 'Pokedéx' }}
+          options={{ headerShown: false }}
           component={Home}
         />
         <Stack.Screen
           name={Screens.DETAIL}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, presentation: 'modal' }}
           component={Detail}
         />
       </Stack.Navigator>
