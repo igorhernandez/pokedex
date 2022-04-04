@@ -1,10 +1,13 @@
 import { AntDesign, MaterialIcons, FontAwesome5 } from '@expo/vector-icons'
 
 import { colors } from '../../utils/colors'
-import { IconContainer } from './EggGroupIcon.styles'
+import { capitalizeFirstLetter } from '../../utils/helpers'
+
+import { IconContainer, EggNameLabel } from './EggGroupIcon.styles'
 
 interface IEggGroupsIcons {
   eggName: string
+  isFullIcon?: boolean
 }
 
 interface IEggGroups {
@@ -14,7 +17,7 @@ interface IEggGroupsColors {
   [color: string]: string
 }
 
-const EggGroupIcon = ({ eggName }: IEggGroupsIcons) => {
+const EggGroupIcon = ({ eggName, isFullIcon }: IEggGroupsIcons) => {
   if (!eggName) return null
 
   const eggGroupsColors: IEggGroupsColors = {
@@ -63,8 +66,11 @@ const EggGroupIcon = ({ eggName }: IEggGroupsIcons) => {
   }
 
   return (
-    <IconContainer bgColor={eggGroupsColors[eggName]}>
+    <IconContainer bgColor={eggGroupsColors[eggName]} isFullIcon={isFullIcon}>
       {eggGroups[eggName] || null}
+      {isFullIcon && (
+        <EggNameLabel>{capitalizeFirstLetter(eggName)}</EggNameLabel>
+      )}
     </IconContainer>
   )
 }
