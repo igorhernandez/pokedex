@@ -1,4 +1,5 @@
 export enum Screens {
   HOME = 'HOME',
-  DETAIL = 'DETAIL'
+  DETAIL = 'DETAIL',
+  POKEDEX = 'POKEDEX'
 }
