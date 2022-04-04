@@ -35,10 +35,6 @@ function Home() {
     handleGetPokemons(page)
   }, [page])
 
-  useEffect(() => {
-    console.log('pokemons', pokemons)
-  }, [pokemons])
-
   return (
     <SafeAreaView>
       <StatusBar style="auto" />
