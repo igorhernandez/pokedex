@@ -1,14 +1,10 @@
+import { getPokemonId, removeBreakLines } from '../utils/helpers'
 import api from './api'
 
 interface IPokemons {
   id: number
   name: string
   url: string
-}
-
-const getPokemonId = (url: string) => {
-  const urlToReplace = 'https://pokeapi.co/api/v2/pokemon/'
-  return parseInt(url.replace(urlToReplace, ''))
 }
 
 export const getPokemons = async (page: number) => {
@@ -19,13 +15,18 @@ export const getPokemons = async (page: number) => {
       pokemonList.map(async ({ id, name, url }: IPokemons) => {
         const {
           egg_groups,
-          color: { name: color }
+          color: { name: color },
+          flavor_text_entries
         } = await getSpecies(url)
+        const description = removeBreakLines(
+          flavor_text_entries[0]?.flavor_text
+        )
 
         return {
           id,
           name,
           url,
+          description,
           species: { egg_groups, color }
         }
       })
@@ -71,7 +72,6 @@ export const getPokemon = async (url: string) => {
 export const getPokemonsList = async (page: number) => {
   try {
     const offset = (page - 1) * 10
-    console.log('offset', offset)
     const url = `/pokemon?offset=${offset}&limit=10`
 
     return await api.get(url).then(async (response) => {
