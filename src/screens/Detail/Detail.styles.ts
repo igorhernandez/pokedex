@@ -22,8 +22,8 @@ export const PokemonName = styled.Text`
 `
 
 export const PokemonImage = styled.Image`
-  height: 300px;
-  width: 300px;
+  height: 200px;
+  width: 200px;
   margin: auto;
 `
 
@@ -37,7 +37,7 @@ export const HeaderWrapper = styled.View`
 export const Header = styled.View<IHeader>`
   ${({ bgColor }) => bgColor && `background-color: ${bgColor}`}
   transform: scaleX(0.5);
-  padding: 60px 15px 15px 15px;
+  padding: 25px 15px 15px 15px;
 `
 export const EggsGroupContainer = styled.View`
   flex-direction: row;
@@ -56,4 +56,28 @@ export const PokeballContainer = styled.View`
 
 export const PokeballLabel = styled.Text`
   font-weight: bold;
+  color: #777;
+`
+
+export const Content = styled.View`
+  padding: 25px;
+`
+
+export const Title = styled.Text`
+  font-size: 22px;
+  font-weight: bold;
+  color: ${colors.black};
+  margin-bottom: 25px;
+`
+
+export const SubTitle = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+  color: ${colors.black};
+`
+
+export const AboutPokemon = styled.Text`
+  margin-bottom: 20px;
+  width: 100%;
+  font-size: 16px;
 `

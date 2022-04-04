@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { capitalizeFirstLetter, handlePokemonImage } from '../../utils/helpers'
-import { FontAwesome5 } from '@expo/vector-icons'
-import { colors } from '../../utils/colors'
+import { treatColors } from '../../utils/colors'
 import {
+  AboutPokemon,
   Container,
+  Content,
   EggsGroupContainer,
   Header,
   HeaderWrapper,
@@ -13,15 +14,20 @@ import {
   PokeballLabel,
   PokemonImage,
   PokemonName,
+  SubTitle,
+  Title,
   Wrapper
 } from './Detail.styles'
 import EggGroupIcon from '../../components/EggGroupIcon/EggGroupIcon'
-import Pokeball from '../../../assets/pokeball.svg'
-import PokeballDisabled from '../../../assets/pokeball_gray.svg'
+import Pokeball from '../../../assets/pokeball_closed.svg'
+import PokeballOpened from '../../../assets/pokeball_opened.svg'
 import { getData, storeData } from '../../utils/asyncStorage'
 import { StatusBar } from 'expo-status-bar'
 import { RootRouteProps } from '../../../App'
 import { IEggsGroups, IPokemon } from '../../interfaces/pokemon.interfaces'
+import EggGroupFullIcon from '../../components/EggGroupFullIcon/EggGroupFullIcon'
+import { EggGroupsContainer } from '../../components/EggGroupFullIcon/EggGroupFullIcon.styles'
+import BackButton from '../../components/BackButton/BackButton'
 
 const Detail = () => {
   const {
@@ -73,7 +79,7 @@ const Detail = () => {
       setPokemonCaptured(true)
     }
 
-    console.log('getData', await getData('capturedPokemons'))
+    // console.log('getData', await getData('capturedPokemons'))
     // removeData('capturedPokemons')
   }
 
@@ -86,10 +92,8 @@ const Detail = () => {
       <StatusBar style="light" />
       <Container>
         <HeaderWrapper>
-          <Header bgColor={colors.green}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <FontAwesome5 name="arrow-left" color={colors.white} size={28} />
-            </TouchableOpacity>
+          <Header bgColor={treatColors[pokemon.species.color]}>
+            <BackButton />
             <PokemonName>
               {capitalizeFirstLetter(pokemon?.name || '')}
             </PokemonName>
@@ -103,18 +107,34 @@ const Detail = () => {
             <PokemonImage source={{ uri: handlePokemonImage(pokemon.id) }} />
           </Header>
         </HeaderWrapper>
+        <Content>
+          <AboutPokemon>{pokemon.description}</AboutPokemon>
+          <View>
+            <SubTitle>Egg Groups</SubTitle>
+            <EggGroupsContainer>
+              {pokemon.species.egg_groups.map((eggGroup) => {
+                return (
+                  <EggGroupFullIcon
+                    eggName={eggGroup.name}
+                    key={eggGroup.name}
+                  />
+                )
+              })}
+            </EggGroupsContainer>
+          </View>
+        </Content>
         <PokeballContainer>
           {pokemonCaptured ? (
             <TouchableOpacity onPress={handlePokemonCapture}>
-              <Pokeball height={100} width={100} />
+              <Pokeball height={85} width={85} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity onPress={handlePokemonCapture}>
-              <PokeballDisabled height={100} width={100} />
+              <PokeballOpened height={85} width={85} />
             </TouchableOpacity>
           )}
           <PokeballLabel>
-            {pokemonCaptured ? 'Pokemon capturado!' : 'Capturar Pokemon!'}
+            {pokemonCaptured ? 'Pokémon capturado!' : 'Lançar Pokébola!'}
           </PokeballLabel>
         </PokeballContainer>
       </Container>
