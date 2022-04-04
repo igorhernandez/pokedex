@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 import { capitalizeFirstLetter, handlePokemonImage } from '../../utils/helpers'
 import { treatColors } from '../../utils/colors'
 import {
@@ -15,7 +15,6 @@ import {
   PokemonImage,
   PokemonName,
   SubTitle,
-  Title,
   Wrapper
 } from './Detail.styles'
 import EggGroupIcon from '../../components/EggGroupIcon/EggGroupIcon'
@@ -23,17 +22,27 @@ import Pokeball from '../../../assets/pokeball_closed.svg'
 import PokeballOpened from '../../../assets/pokeball_opened.svg'
 import { getData, storeData } from '../../utils/asyncStorage'
 import { StatusBar } from 'expo-status-bar'
-import { RootRouteProps } from '../../../App'
 import { IEggsGroups, IPokemon } from '../../interfaces/pokemon.interfaces'
-import EggGroupFullIcon from '../../components/EggGroupFullIcon/EggGroupFullIcon'
-import { EggGroupsContainer } from '../../components/EggGroupFullIcon/EggGroupFullIcon.styles'
+import { EggGroupsContainer } from '../../components/EggGroupIcon/EggGroupIcon.styles'
 import BackButton from '../../components/BackButton/BackButton'
+import AppContext from '../../context/context'
+
+interface IPokemonParam {
+  pokemon: IPokemon
+}
+interface IParams {
+  key: string
+  name: string
+  params: IPokemonParam
+}
 
 const Detail = () => {
   const {
     params: { pokemon }
-  } = useRoute<RootRouteProps<'Detail'>>()
-  const navigation = useNavigation()
+  } = useRoute<IParams>()
+
+  const { setToPokedex } = useContext(AppContext)
+
   const [pokemonCaptured, setPokemonCaptured] = useState(false)
 
   const getCapturedPokemons = async () => {
@@ -69,18 +78,18 @@ const Detail = () => {
         )
         if (!removedCapturedPokemon) return null
         storeData('capturedPokemons', [...removedCapturedPokemon])
+        setToPokedex(removedCapturedPokemon)
         setPokemonCaptured(false)
       } else {
         storeData('capturedPokemons', [...pokemons, pokemon])
+        setToPokedex([...pokemons, pokemon])
         setPokemonCaptured(true)
       }
     } else {
       storeData('capturedPokemons', [pokemon])
+      setToPokedex([pokemon])
       setPokemonCaptured(true)
     }
-
-    // console.log('getData', await getData('capturedPokemons'))
-    // removeData('capturedPokemons')
   }
 
   useEffect(() => {
@@ -114,8 +123,9 @@ const Detail = () => {
             <EggGroupsContainer>
               {pokemon.species.egg_groups.map((eggGroup) => {
                 return (
-                  <EggGroupFullIcon
+                  <EggGroupIcon
                     eggName={eggGroup.name}
+                    isFullIcon
                     key={eggGroup.name}
                   />
                 )
