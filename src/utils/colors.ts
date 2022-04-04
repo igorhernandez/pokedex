@@ -5,7 +5,7 @@ export const colors = {
   lightBlue: '#2db0ef',
   brown: '#cb9393',
   lightBrown: '#ec8583',
-  gray: 'gray',
+  gray: '#516574',
   green: '#93cba8',
   darkGreen: '#3fb7af',
   lightGreen: '#35ac58',
@@ -17,7 +17,11 @@ export const colors = {
   orange: '#ec713d'
 }
 
-export const treatColors = {
+interface ITreatColors {
+  [color: string]: string
+}
+
+export const treatColors: ITreatColors = {
   black: colors.black,
   blue: colors.blue,
   brown: colors.brown,
