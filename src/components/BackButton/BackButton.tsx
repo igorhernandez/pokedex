@@ -5,9 +5,8 @@ import { colors } from '../../utils/colors'
 
 const BackButton = ({ color = colors.white }) => {
   const navigation = useNavigation()
-
   return (
-    <TouchableOpacity onPress={() => navigation.goBack()}>
+    <TouchableOpacity testID="backButton" onPress={() => navigation.goBack()}>
       <FontAwesome5 name="arrow-left" color={color} size={28} />
     </TouchableOpacity>
   )
