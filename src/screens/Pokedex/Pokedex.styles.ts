@@ -13,3 +13,18 @@ export const Title = styled.Text`
   margin: 20px 0;
   color: ${colors.black};
 `
+
+export const SubTitle = styled.Text`
+  font-size: 20px;
+  text-align: center;
+  line-height: 28px;
+  color: ${colors.gray};
+  font-weight: bold;
+  margin-top: 20px;
+`
+
+export const SearchInput = styled.TextInput`
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+`
