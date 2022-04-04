@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView, TouchableOpacity } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { getPokemons } from '../../services'
 
 import PokemonList from './components/PokemonList/PokemonList'
-import { Container } from './Home.styles'
+import { Container, PokedexContainer } from './Home.styles'
 import { IPokemon } from '../../interfaces/pokemon.interfaces'
+import PokedexIcon from '../../../assets/pokedex.svg'
+import { Screens } from '../../navigation/screenNames'
 
-function Home() {
+function Home({ navigation }) {
   const [pokemons, setPokemons] = useState<Array<IPokemon>>([])
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
@@ -44,6 +46,11 @@ function Home() {
           onEndReached={onEndReached}
           isLoading={loading}
         />
+        <TouchableOpacity onPress={() => navigation.navigate(Screens.POKEDEX)}>
+          <PokedexContainer>
+            <PokedexIcon width={50} height={50} />
+          </PokedexContainer>
+        </TouchableOpacity>
       </Container>
     </SafeAreaView>
   )
