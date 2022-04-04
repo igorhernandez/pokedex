@@ -1,33 +1,8 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  TouchableOpacity,
-  View
-} from 'react-native'
-import EggGroupsIcons from '../../../../components/EggGroupIcon/EggGroupIcon'
-import {
-  capitalizeFirstLetter,
-  handlePokemonImage
-} from '../../../../utils/helpers'
-import {
-  PokemonContainer,
-  PokemonDetails,
-  PokemonEggIcons,
-  PokemonImage,
-  PokemonName
-} from './PokemonList.styles'
-
-interface ISpecies {
-  color: string
-  egg_groups: Array<{ name: string; url: string }>
-}
-
-interface IPokemon {
-  id: number
-  name: string
-  species: ISpecies
-  url: string
-}
+import { ActivityIndicator, FlatList, View } from 'react-native'
+import { PokemonLogoContainer } from './PokemonList.styles'
+import { IPokemon } from '../../../../interfaces/pokemon.interfaces'
+import PokemonLogo from '../../../../../assets/pokemon_logo.svg'
+import PokemonCard from '../../../../components/PokemonCard/PokemonCard'
 
 interface IPokemonList {
   pokemons: Array<IPokemon>
@@ -46,41 +21,29 @@ function PokemonList({ pokemons, isLoading, onEndReached }: IPokemonList) {
     )
 
   const renderItem = (item: IPokemon) => {
-    if (!item.name) {
+    if (!item) {
       return <></>
     }
 
-    return (
-      <TouchableOpacity key={item.id}>
-        <PokemonContainer bgColor={item.species.color}>
-          <PokemonImage
-            source={{ uri: handlePokemonImage(item.id) }}
-          ></PokemonImage>
-          <PokemonDetails>
-            <PokemonName>{capitalizeFirstLetter(item.name)}</PokemonName>
-            <PokemonEggIcons>
-              {item.species.egg_groups.map((eggGroup) => {
-                return (
-                  <EggGroupsIcons key={eggGroup.name} eggName={eggGroup.name} />
-                )
-              })}
-            </PokemonEggIcons>
-          </PokemonDetails>
-        </PokemonContainer>
-      </TouchableOpacity>
-    )
+    return <PokemonCard pokemon={item} />
   }
 
   return (
     <FlatList
       data={pokemons}
       renderItem={({ item }) => renderItem(item)}
-      onEndReachedThreshold={1}
+      onEndReachedThreshold={0.01}
       onEndReached={onEndReached}
+      windowSize={7}
+      initialNumToRender={7}
       removeClippedSubviews
-      refreshing={true}
       showsVerticalScrollIndicator={false}
       keyExtractor={(item) => item.name}
+      ListHeaderComponent={() => (
+        <PokemonLogoContainer>
+          <PokemonLogo width={130} height={70} />
+        </PokemonLogoContainer>
+      )}
       ListFooterComponent={shouldRenderLoader}
     />
   )
