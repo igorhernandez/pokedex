@@ -101,17 +101,27 @@ const Detail = () => {
       <StatusBar style="light" />
       <Container>
         <HeaderWrapper>
-          <Header bgColor={treatColors[pokemon.species.color]}>
+          <Header
+            bgColor={
+              pokemon?.species?.color
+                ? treatColors[pokemon?.species?.color]
+                : ''
+            }
+          >
             <BackButton />
             <PokemonName>
               {capitalizeFirstLetter(pokemon?.name || '')}
             </PokemonName>
             <EggsGroupContainer>
-              {pokemon.species.egg_groups.map((eggGroup: IEggsGroups) => {
-                return (
-                  <EggGroupIcon key={eggGroup.name} eggName={eggGroup.name} />
-                )
-              })}
+              {pokemon?.species?.egg_groups &&
+                pokemon?.species?.egg_groups?.map((eggGroup: IEggsGroups) => {
+                  return (
+                    <EggGroupIcon
+                      key={eggGroup?.name}
+                      eggName={eggGroup?.name}
+                    />
+                  )
+                })}
             </EggsGroupContainer>
             <PokemonImage source={{ uri: handlePokemonImage(pokemon.id) }} />
           </Header>
@@ -121,15 +131,16 @@ const Detail = () => {
           <View>
             <SubTitle>Egg Groups</SubTitle>
             <EggGroupsContainer>
-              {pokemon.species.egg_groups.map((eggGroup) => {
-                return (
-                  <EggGroupIcon
-                    eggName={eggGroup.name}
-                    isFullIcon
-                    key={eggGroup.name}
-                  />
-                )
-              })}
+              {pokemon?.species?.egg_groups &&
+                pokemon?.species?.egg_groups?.map((eggGroup) => {
+                  return (
+                    <EggGroupIcon
+                      eggName={eggGroup?.name}
+                      isFullIcon
+                      key={eggGroup?.name}
+                    />
+                  )
+                })}
             </EggGroupsContainer>
           </View>
         </Content>

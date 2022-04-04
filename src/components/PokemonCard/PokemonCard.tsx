@@ -30,20 +30,23 @@ const PokemonCard = ({ pokemon }: IPokemonCard) => {
           params: { pokemon }
         })
       }
-      key={pokemon.id}
+      key={pokemon?.id}
     >
-      <PokemonContainer bgColor={pokemon.species.color}>
+      <PokemonContainer bgColor={pokemon?.species?.color}>
         <PokemonImage
-          source={{ uri: handlePokemonImage(pokemon.id) }}
+          source={{ uri: handlePokemonImage(pokemon?.id) }}
         ></PokemonImage>
         <PokemonDetails>
-          <PokemonName>{capitalizeFirstLetter(pokemon.name)}</PokemonName>
+          {pokemon?.name && (
+            <PokemonName>{capitalizeFirstLetter(pokemon?.name)}</PokemonName>
+          )}
           <PokemonEggIcons>
-            {pokemon.species.egg_groups.map((eggGroup) => {
-              return (
-                <EggGroupIcon key={eggGroup.name} eggName={eggGroup.name} />
-              )
-            })}
+            {pokemon?.species?.egg_groups &&
+              pokemon?.species?.egg_groups.map((eggGroup) => {
+                return (
+                  <EggGroupIcon key={eggGroup?.name} eggName={eggGroup?.name} />
+                )
+              })}
           </PokemonEggIcons>
         </PokemonDetails>
       </PokemonContainer>
