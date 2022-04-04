@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 import { colors } from '../../utils/colors'
 
 export const Container = styled.View`
-  padding: 20px 20px 100px 20px;
+  padding: 20px 20px 0 20px;
 `
 
 export const Title = styled.Text`
