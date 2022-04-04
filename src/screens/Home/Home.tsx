@@ -47,6 +47,7 @@ function Home() {
       <StatusBar style="auto" />
       <Container>
         <PokemonList
+          retryRequest={() => handleGetPokemons(page)}
           pokemons={pokemons}
           onEndReached={onEndReached}
           isLoading={loading}

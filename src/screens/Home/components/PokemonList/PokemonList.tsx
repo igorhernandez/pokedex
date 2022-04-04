@@ -1,5 +1,10 @@
 import { ActivityIndicator, FlatList, View } from 'react-native'
-import { PokemonLogoContainer } from './PokemonList.styles'
+import {
+  PokemonListEmpty,
+  PokemonLogoContainer,
+  RetryRequestButton,
+  RetryRequestText
+} from './PokemonList.styles'
 import { IPokemon } from '../../../../interfaces/pokemon.interfaces'
 import PokemonLogo from '../../../../../assets/pokemon_logo.svg'
 import PokemonCard from '../../../../components/PokemonCard/PokemonCard'
@@ -8,9 +13,15 @@ interface IPokemonList {
   pokemons: Array<IPokemon>
   onEndReached: () => void
   isLoading: boolean
+  retryRequest: () => void
 }
 
-function PokemonList({ pokemons, isLoading, onEndReached }: IPokemonList) {
+function PokemonList({
+  pokemons,
+  isLoading,
+  onEndReached,
+  retryRequest
+}: IPokemonList) {
   const shouldRenderLoader = () =>
     isLoading ? (
       <View style={{ height: 100, marginTop: 20 }}>
@@ -30,6 +41,16 @@ function PokemonList({ pokemons, isLoading, onEndReached }: IPokemonList) {
 
   return (
     <FlatList
+      ListEmptyComponent={
+        <>
+          <PokemonListEmpty>
+            Ops! Não encontramos nenhum pokemon!
+          </PokemonListEmpty>
+          <RetryRequestButton onPress={retryRequest}>
+            <RetryRequestText>Tentar novamente</RetryRequestText>
+          </RetryRequestButton>
+        </>
+      }
       data={pokemons}
       renderItem={({ item }) => renderItem(item)}
       onEndReachedThreshold={0.01}
