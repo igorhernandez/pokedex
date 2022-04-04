@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { SafeAreaView, TouchableOpacity } from 'react-native'
+import { SafeAreaView } from 'react-native'
+
 import { StatusBar } from 'expo-status-bar'
 import { getPokemons } from '../../services'
 
@@ -8,8 +9,12 @@ import { Container, PokedexContainer } from './Home.styles'
 import { IPokemon } from '../../interfaces/pokemon.interfaces'
 import PokedexIcon from '../../../assets/pokedex.svg'
 import { Screens } from '../../navigation/screenNames'
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { RootStackParamList } from '../../../App'
 
-function Home({ navigation }) {
+function Home() {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   const [pokemons, setPokemons] = useState<Array<IPokemon>>([])
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
@@ -46,11 +51,9 @@ function Home({ navigation }) {
           onEndReached={onEndReached}
           isLoading={loading}
         />
-        <TouchableOpacity onPress={() => navigation.navigate(Screens.POKEDEX)}>
-          <PokedexContainer>
-            <PokedexIcon width={50} height={50} />
-          </PokedexContainer>
-        </TouchableOpacity>
+        <PokedexContainer onPress={() => navigation.navigate(Screens.POKEDEX)}>
+          <PokedexIcon width={50} height={50} />
+        </PokedexContainer>
       </Container>
     </SafeAreaView>
   )

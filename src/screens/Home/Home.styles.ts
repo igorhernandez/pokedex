@@ -6,7 +6,7 @@ export const Container = styled.View`
   height: 100%;
 `
 
-export const PokedexContainer = styled.View`
+export const PokedexContainer = styled.TouchableOpacity`
   height: 80px;
   width: 80px;
   bottom: 0;
